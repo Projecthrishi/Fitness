@@ -15,7 +15,7 @@ function WeeklyCharts() {
 
   useEffect(() => {
     const token = localStorage.getItem('token');
-    api.get('http://localhost:5000/api/trackers/summary/weekly/aggregate', {
+    api.get(`${process.env.REACT_APP_API_URL}/api/trackers/summary/weekly/aggregate`, {
       headers: { Authorization: `Bearer ${token}` }
     })
     .then((res) => setAggregate(res.data))

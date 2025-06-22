@@ -22,7 +22,7 @@ function Dashboard() {
       const headers = { Authorization: `Bearer ${token}` };
 
       // Fetch user
-      api.get('http://localhost:5000/api/auth/user', { headers })
+      api.get(`${process.env.REACT_APP_API_URL}/api/auth/user`, { headers })
         .then(res => setUser(res.data))
         .catch(() => {
           localStorage.removeItem('token');
@@ -30,7 +30,7 @@ function Dashboard() {
         });
 
       // Fetch workout summary
-      api.get('http://localhost:5000/api/workouts/summary/today', { headers })
+      api.get(`${process.env.REACT_APP_API_URL}/api/workouts/summary/today`, { headers })
         .then(res => {
           const summary = {
             caloriesBurned: res.data.totalCalories,
@@ -41,12 +41,12 @@ function Dashboard() {
         .catch(err => console.error('Workout summary error:', err));
 
       // Fetch user goals
-      api.get('http://localhost:5000/api/user/goals', { headers })
+      api.get(`${process.env.REACT_APP_API_URL}/api/user/goals`, { headers })
         .then(res => setUserGoals(res.data))
         .catch(() => setUserGoals(null));
 
       // Fetch today’s diet/water log
-      api.get('http://localhost:5000/api/trackers/today', { headers })
+      api.get(`${process.env.REACT_APP_API_URL}/api/trackers/today`, { headers })
         .then(res => {
           const diet = res.data || { meals: [], waterIntake: 0 };
           setTodayDiet(diet);

@@ -13,7 +13,7 @@ function DietAndWaterPage() {
 
   useEffect(() => {
     const fetchData = async () => {
-      const res = await api.get('http://localhost:5000/api/trackers/today', {
+      const res = await api.get(`${process.env.REACT_APP_API_URL}/api/trackers/today`, {
         headers: { Authorization: `Bearer ${token}` }
       });
       if (res.data) {
@@ -31,7 +31,7 @@ function DietAndWaterPage() {
     return alert("Both meal and calories are required.");
   }
 
-  await api.post('http://localhost:5000/api/trackers/diet', {
+  await api.post(`${process.env.REACT_APP_API_URL}/api/trackers/diet`, {
     meal,
     calories: Number(calories)  // 🛠️ Ensure it's a number
   }, {
@@ -41,7 +41,7 @@ function DietAndWaterPage() {
   setMeal('');
   setCalories('');
 
-  const res = await api.get('http://localhost:5000/api/trackers/today', {
+  const res = await api.get(`${process.env.REACT_APP_API_URL}/api/trackers/today`, {
     headers: { Authorization: `Bearer ${token}` }
   });
 
@@ -50,18 +50,18 @@ function DietAndWaterPage() {
 
 
   const handleWaterIncrease = async () => {
-    await api.post('http://localhost:5000/api/trackers/water', { amount: 250 }, {
+    await api.post(`${process.env.REACT_APP_API_URL}/api/trackers/water`, { amount: 250 }, {
       headers: { Authorization: `Bearer ${token}` }
     });
     setWaterIntake(prev => Math.min(prev + 250, waterGoal));
   };
 
   const handleDeleteMeal = async (index) => {
-  await api.delete(`http://localhost:5000/api/trackers/diet/${index}`, {
+  await api.delete(`${process.env.REACT_APP_API_URL}/api/trackers/diet/${index}`, {
     headers: { Authorization: `Bearer ${token}` }
   });
   // Refresh meals
-  const res = await api.get('http://localhost:5000/api/trackers/today', {
+  const res = await api.get(`${process.env.REACT_APP_API_URL}/api/trackers/today`, {
     headers: { Authorization: `Bearer ${token}` }
   });
   setMeals(res.data.meals || []);
@@ -69,7 +69,7 @@ function DietAndWaterPage() {
 
 const handleWaterDecrease = async () => {
   try {
-    const res = await api.delete('http://localhost:5000/api/trackers/water/remove', {
+    const res = await api.delete(`${process.env.REACT_APP_API_URL}/api/trackers/water/remove`, {
       headers: { Authorization: `Bearer ${token}` }
     });
     setWaterIntake(res.data.waterIntake);

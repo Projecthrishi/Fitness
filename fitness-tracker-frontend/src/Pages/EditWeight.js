@@ -7,7 +7,7 @@ function EditWeight() {
   const token = localStorage.getItem('token');
 
   useEffect(() => {
-    api.get('http://localhost:5000/api/auth/user', {
+    api.get(`${process.env.REACT_APP_API_URL}/api/auth/user`, {
       headers: { Authorization: `Bearer ${token}` }
     }).then(res => {
       setWeight(res.data.weight || '');
@@ -20,7 +20,7 @@ function EditWeight() {
 
   const handleUpdate = async () => {
     try {
-      await api.patch('http://localhost:5000/api/trackers/update-weight', {
+      await api.patch(`${process.env.REACT_APP_API_URL}/api/trackers/update-weight`, {
         weight: Number(weight)
       }, {
         headers: { Authorization: `Bearer ${token}` }

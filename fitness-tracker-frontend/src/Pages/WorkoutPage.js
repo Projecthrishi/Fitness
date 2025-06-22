@@ -22,7 +22,7 @@ function WorkoutPage() {
 
   const fetchWorkouts = async () => {
     try {
-      const res = await api.get('http://localhost:5000/api/workouts/my', {
+      const res = await api.get(`${process.env.REACT_APP_API_URL}/api/workouts/my`, {
         headers: { Authorization: `Bearer ${token}` }
       });
       const sorted = res.data.sort((a, b) => new Date(b.date) - new Date(a.date));
@@ -40,7 +40,7 @@ function WorkoutPage() {
 
     try {
       await api.post(
-        'http://localhost:5000/api/workouts/add',
+        `${process.env.REACT_APP_API_URL}/api/workouts/add`,
         { title, duration },
         { headers: { Authorization: `Bearer ${token}` } }
       );
@@ -54,7 +54,7 @@ function WorkoutPage() {
 
   const handleDelete = async (id) => {
     try {
-      await api.delete(`http://localhost:5000/api/workouts/${id}`, {
+      await api.delete(`${process.env.REACT_APP_API_URL}/api/workouts/${id}`, {
         headers: { Authorization: `Bearer ${token}` }
       });
       fetchWorkouts();
@@ -65,7 +65,7 @@ function WorkoutPage() {
 
   const handleToggleComplete = async (id) => {
     try {
-      await api.patch(`http://localhost:5000/api/workouts/toggle/${id}`, {}, {
+      await api.patch(`${process.env.REACT_APP_API_URL}/api/workouts/toggle/${id}`, {}, {
         headers: { Authorization: `Bearer ${token}` }
       });
       fetchWorkouts();

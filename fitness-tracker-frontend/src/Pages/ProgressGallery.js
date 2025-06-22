@@ -6,7 +6,7 @@ function ProgressGallery() {
   const [selectedImage, setSelectedImage] = useState(null);
 
   const fetchImages = async () => {
-    const res = await api.get('http://localhost:5000/api/progress/my', {
+    const res = await api.get(`${process.env.REACT_APP_API_URL}/api/progress/my`, {
       headers: { Authorization: `Bearer ${localStorage.getItem('token')}` }
     });
     setImages(res.data);
@@ -17,7 +17,7 @@ function ProgressGallery() {
     const formData = new FormData();
     formData.append('image', file);
 
-    await api.post('http://localhost:5000/api/progress/upload', formData, {
+    await api.post(`${process.env.REACT_APP_API_URL}/api/progress/upload`, formData, {
       headers: {
         Authorization: `Bearer ${localStorage.getItem('token')}`,
         'Content-Type': 'multipart/form-data'
@@ -27,7 +27,7 @@ function ProgressGallery() {
   };
 
   const handleDelete = async (id) => {
-    await api.delete(`http://localhost:5000/api/progress/${id}`, {
+    await api.delete(`${process.env.REACT_APP_API_URL}/api/progress/${id}`, {
       headers: { Authorization: `Bearer ${localStorage.getItem('token')}` }
     });
     fetchImages();

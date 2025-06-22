@@ -12,7 +12,7 @@ function Register() {
   const handleRegister = async (e) => {
     e.preventDefault();
     try {
-      await api.post('http://localhost:5000/api/auth/register', {
+      await api.post(`${process.env.REACT_APP_API_URL}/api/auth/register`, {
         name,
         email,
         password,

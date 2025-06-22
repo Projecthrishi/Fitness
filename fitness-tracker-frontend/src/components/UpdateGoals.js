@@ -15,7 +15,7 @@ function UpdateGoals() {
   const token = localStorage.getItem('token');
 
   useEffect(() => {
-    api.get('http://localhost:5000/api/user/goals', {
+    api.get(`${process.env.REACT_APP_API_URL}/api/user/goals`, {
       headers: { Authorization: `Bearer ${token}` }
     })
       .then(res => {
@@ -45,7 +45,7 @@ function UpdateGoals() {
 
   const handleUpdate = async () => {
     try {
-      await api.patch('http://localhost:5000/api/user/update-goals', goals, {
+      await api.patch(`${process.env.REACT_APP_API_URL}/api/user/update-goals`, goals, {
         headers: { Authorization: `Bearer ${token}` }
       });
       alert('✅ Goals updated successfully!');
@@ -61,7 +61,7 @@ function UpdateGoals() {
     if (!window.confirm('Are you sure you want to delete your saved goals?')) return;
 
     try {
-      await api.delete('http://localhost:5000/api/user/goals', {
+      await api.delete(`${process.env.REACT_APP_API_URL}/api/user/goals`, {
         headers: { Authorization: `Bearer ${token}` }
       });
       alert('🗑️ Goals deleted!');
