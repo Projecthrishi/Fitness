@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import axios from 'axios';
+import api from 'api';
 
 function SummaryPage() {
   const [summary, setSummary] = useState([]);
@@ -7,7 +7,7 @@ function SummaryPage() {
 
   const fetchSummary = async () => {
     try {
-      const res = await axios.get('http://localhost:5000/api/trackers/summary/weekly', {
+      const res = await api.get('http://localhost:5000/api/trackers/summary/weekly', {
         headers: { Authorization: `Bearer ${token}` }
       });
       setSummary(res.data || []);
@@ -27,7 +27,7 @@ function SummaryPage() {
     if (!window.confirm(`Delete data for ${new Date(date).toLocaleDateString()}?`)) return;
 
     try {
-      await axios.delete(`http://localhost:5000/api/trackers/delete/${date}`, {
+      await api.delete(`http://localhost:5000/api/trackers/delete/${date}`, {
         headers: { Authorization: `Bearer ${token}` }
       });
       fetchSummary(); // refresh after delete
