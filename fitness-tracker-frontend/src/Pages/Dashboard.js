@@ -62,38 +62,43 @@ function Dashboard() {
    
 
   if (userGoals) {
-    const burned = Number(todayWorkout.caloriesBurned || 0);
-    const workoutGoal = Number(userGoals.dailyCalories || 0);
-    const duration = Number(todayWorkout.duration || 0);
-    const durationGoal = Number(userGoals.dailyDuration || 0);
-    const waterLogged = Number(todayDiet.waterIntake || 0);
-    const waterGoal = Number(userGoals.dailyIntake || 0);
+  const burned = Number(todayWorkout.caloriesBurned || 0);
+  const workoutGoal = Number(userGoals.dailyCalories || 0);
+  const duration = Number(todayWorkout.duration || 0);
+  const durationGoal = Number(userGoals.dailyDuration || 0);
 
-    // Debug logs (optional)
-    console.log("burned:", burned, "goal:", workoutGoal);
-    console.log("duration:", duration, "goal:", durationGoal);
+  const workoutNotDone = burned === 0 && duration === 0;
 
+  if (workoutNotDone) {
+    newAlerts.push(`🚫 You haven't done any workout today! Time to get moving!`);
+  } else {
     if (burned < workoutGoal) {
-      newAlerts.push(`🚫 You burned only ${burned} kcal. Goal: ${workoutGoal} kcal.`);
+      newAlerts.push(`🔥 You burned only ${burned} kcal. Goal: ${workoutGoal} kcal.`);
     }
-
     if (duration < durationGoal) {
-      newAlerts.push(`🚫 You worked out only ${duration} min. Goal: ${durationGoal} min.`);
-    }
-
-    if ((todayDiet.meals || []).length === 0) {
-      newAlerts.push(`🍱 You haven't logged any meals today.`);
-    }
-
-    if (waterGoal > 0) {
-      if (waterLogged === 0) {
-        newAlerts.push(`💧 No water intake logged today. Goal: ${waterGoal} ml.`);
-      } else if (waterLogged < waterGoal) {
-        const remaining = waterGoal - waterLogged;
-        newAlerts.push(`💧 Drink ${remaining} ml more to meet your water goal of ${waterGoal} ml.`);
-      }
+      newAlerts.push(`⏱️ You worked out only ${duration} min. Goal: ${durationGoal} min.`);
     }
   }
+
+  // Meal reminder
+  if ((todayDiet.meals || []).length === 0) {
+    newAlerts.push(`🍱 You haven't logged any meals today.`);
+  }
+
+  // Water reminder
+  const waterLogged = Number(todayDiet.waterIntake || 0);
+  const waterGoal = Number(userGoals.dailyIntake || 0);
+
+  if (waterGoal > 0) {
+    if (waterLogged === 0) {
+      newAlerts.push(`💧 No water intake logged today. Goal: ${waterGoal} ml.`);
+    } else if (waterLogged < waterGoal) {
+      const remaining = waterGoal - waterLogged;
+      newAlerts.push(`💧 Drink ${remaining} ml more to meet your water goal of ${waterGoal} ml.`);
+    }
+  }
+}
+
 
   setAlerts(newAlerts);
 }, [todayWorkout, todayDiet, userGoals]);
@@ -106,12 +111,13 @@ function Dashboard() {
   <motion.div
     className="min-vh-100 d-flex flex-column justify-content-start align-items-center"
     style={{
-      backgroundImage: "url('https://images.unsplash.com/photo-1605296867304-46d5465a13f1?fm=jpg&q=60&w=3000&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8OHx8Z3ltJTIwYmFja2dyb3VuZHxlbnwwfHwwfHx8MA%3D%3D')",
-      backgroundSize: 'cover',
-      backgroundPosition: 'center',
-      backgroundRepeat: 'no-repeat',
-      width: '100%',
-    }}
+    backgroundImage: "url('https://images.unsplash.com/photo-1605296867304-46d5465a13f1?fm=jpg&q=60&w=3000&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8OHx8Z3ltJTIwYmFja2dyb3VuZHxlbnwwfHwwfHx8MA%3D%3D')",
+    backgroundSize: 'cover',
+    backgroundPosition: 'center center',
+    backgroundRepeat: 'no-repeat',
+    minHeight: '100vh',      // ✅ makes it full screen height
+    width: '100vw',          // ✅ ensures full width
+  }}
     initial={{ opacity: 0, y: 40 }}
     animate={{ opacity: 1, y: 0 }}
     transition={{ duration: 0.6 }}
@@ -137,25 +143,26 @@ function Dashboard() {
         </p>
 
         {/* 📂 Navigation Buttons */}
-        <div className="mt-4 d-flex justify-content-center gap-3 flex-wrap">
-          {[
-            { to: "/workouts", label: "🏃‍♂️ My Workouts" },
-            { to: "/diet-water", label: "🍱 Track Diet & 💧 Water" },
-            { to: "/summary", label: "📅 Weekly Summary" },
-            { to: "/charts", label: "📈 Charts" },
-            { to: "/goals", label: "🎯 Set Goals" },
-            { to: "/progress", label: "📷 Progress Gallery" }
-          ].map((btn, i) => (
-            <Link
-              key={i}
-              to={btn.to}
-              className="btn text-white px-4 py-2 rounded-pill shadow"
-              style={{ backgroundColor: '#0d6efd' }}
-            >
-              {btn.label}
-            </Link>
-          ))}
-        </div>
+       <div className="mt-4 d-flex flex-column flex-md-row justify-content-center gap-3 flex-wrap">
+  {[
+    { to: "/workouts", label: "🏃‍♂️ My Workouts" },
+    { to: "/diet-water", label: "🍱 Track Diet & 💧 Water" },
+    { to: "/summary", label: "📅 Weekly Summary" },
+    { to: "/charts", label: "📈 Charts" },
+    { to: "/goals", label: "🎯 Set Goals" },
+    { to: "/progress", label: "📷 Progress Gallery" }
+  ].map((btn, i) => (
+    <Link
+      key={i}
+      to={btn.to}
+      className="btn text-white px-4 py-2 rounded-pill shadow-sm"
+      style={{ backgroundColor: '#20c997' }}
+    >
+      {btn.label}
+    </Link>
+  ))}
+</div>
+
       </div>
 
       {/* 🔔 Alerts */}
