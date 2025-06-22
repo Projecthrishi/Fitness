@@ -1,12 +1,12 @@
 import React, { useState, useEffect } from 'react';
-import axios from 'axios';
+import api from '../api';
 
 function ProgressGallery() {
   const [images, setImages] = useState([]);
   const [selectedImage, setSelectedImage] = useState(null);
 
   const fetchImages = async () => {
-    const res = await axios.get('http://localhost:5000/api/progress/my', {
+    const res = await api.get('http://localhost:5000/api/progress/my', {
       headers: { Authorization: `Bearer ${localStorage.getItem('token')}` }
     });
     setImages(res.data);
@@ -17,7 +17,7 @@ function ProgressGallery() {
     const formData = new FormData();
     formData.append('image', file);
 
-    await axios.post('http://localhost:5000/api/progress/upload', formData, {
+    await api.post('http://localhost:5000/api/progress/upload', formData, {
       headers: {
         Authorization: `Bearer ${localStorage.getItem('token')}`,
         'Content-Type': 'multipart/form-data'
@@ -27,7 +27,7 @@ function ProgressGallery() {
   };
 
   const handleDelete = async (id) => {
-    await axios.delete(`http://localhost:5000/api/progress/${id}`, {
+    await api.delete(`http://localhost:5000/api/progress/${id}`, {
       headers: { Authorization: `Bearer ${localStorage.getItem('token')}` }
     });
     fetchImages();

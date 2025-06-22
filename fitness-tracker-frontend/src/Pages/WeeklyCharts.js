@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import axios from 'axios';
+import api from '../api';
 import {
   Chart as ChartJS,
   ArcElement,
@@ -15,7 +15,7 @@ function WeeklyCharts() {
 
   useEffect(() => {
     const token = localStorage.getItem('token');
-    axios.get('http://localhost:5000/api/trackers/summary/weekly/aggregate', {
+    api.get('http://localhost:5000/api/trackers/summary/weekly/aggregate', {
       headers: { Authorization: `Bearer ${token}` }
     })
     .then((res) => setAggregate(res.data))

@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import axios from 'axios';
+import api from '../api';
 
 function EditWeight() {
   const [weight, setWeight] = useState('');
@@ -7,7 +7,7 @@ function EditWeight() {
   const token = localStorage.getItem('token');
 
   useEffect(() => {
-    axios.get('http://localhost:5000/api/auth/user', {
+    api.get('http://localhost:5000/api/auth/user', {
       headers: { Authorization: `Bearer ${token}` }
     }).then(res => {
       setWeight(res.data.weight || '');
@@ -20,7 +20,7 @@ function EditWeight() {
 
   const handleUpdate = async () => {
     try {
-      await axios.patch('http://localhost:5000/api/trackers/update-weight', {
+      await api.patch('http://localhost:5000/api/trackers/update-weight', {
         weight: Number(weight)
       }, {
         headers: { Authorization: `Bearer ${token}` }

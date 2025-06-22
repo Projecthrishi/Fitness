@@ -1,0 +1,3 @@
+# render.yaml for static sites
+static:
+  spa: true

@@ -1,5 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
+import api from "../api";
+
 
 function UpdateGoals() {
   const [goals, setGoals] = useState({
@@ -13,7 +15,7 @@ function UpdateGoals() {
   const token = localStorage.getItem('token');
 
   useEffect(() => {
-    axios.get('http://localhost:5000/api/user/goals', {
+    api.get('http://localhost:5000/api/user/goals', {
       headers: { Authorization: `Bearer ${token}` }
     })
       .then(res => {
@@ -43,7 +45,7 @@ function UpdateGoals() {
 
   const handleUpdate = async () => {
     try {
-      await axios.patch('http://localhost:5000/api/user/update-goals', goals, {
+      await api.patch('http://localhost:5000/api/user/update-goals', goals, {
         headers: { Authorization: `Bearer ${token}` }
       });
       alert('✅ Goals updated successfully!');
@@ -59,7 +61,7 @@ function UpdateGoals() {
     if (!window.confirm('Are you sure you want to delete your saved goals?')) return;
 
     try {
-      await axios.delete('http://localhost:5000/api/user/goals', {
+      await api.delete('http://localhost:5000/api/user/goals', {
         headers: { Authorization: `Bearer ${token}` }
       });
       alert('🗑️ Goals deleted!');

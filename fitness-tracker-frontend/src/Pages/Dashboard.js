@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import { useNavigate, Link } from 'react-router-dom';
 import { motion } from 'framer-motion';
+import api from '../api';
 
 function Dashboard() {
   const [user, setUser] = useState(null);
@@ -21,7 +22,7 @@ function Dashboard() {
       const headers = { Authorization: `Bearer ${token}` };
 
       // Fetch user
-      axios.get('http://localhost:5000/api/auth/user', { headers })
+      api.get('http://localhost:5000/api/auth/user', { headers })
         .then(res => setUser(res.data))
         .catch(() => {
           localStorage.removeItem('token');
@@ -29,7 +30,7 @@ function Dashboard() {
         });
 
       // Fetch workout summary
-      axios.get('http://localhost:5000/api/workouts/summary/today', { headers })
+      api.get('http://localhost:5000/api/workouts/summary/today', { headers })
         .then(res => {
           const summary = {
             caloriesBurned: res.data.totalCalories,
@@ -40,12 +41,12 @@ function Dashboard() {
         .catch(err => console.error('Workout summary error:', err));
 
       // Fetch user goals
-      axios.get('http://localhost:5000/api/user/goals', { headers })
+      api.get('http://localhost:5000/api/user/goals', { headers })
         .then(res => setUserGoals(res.data))
         .catch(() => setUserGoals(null));
 
       // Fetch today’s diet/water log
-      axios.get('http://localhost:5000/api/trackers/today', { headers })
+      api.get('http://localhost:5000/api/trackers/today', { headers })
         .then(res => {
           const diet = res.data || { meals: [], waterIntake: 0 };
           setTodayDiet(diet);
