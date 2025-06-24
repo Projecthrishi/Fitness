@@ -18,7 +18,7 @@ function Register() {
         password,
         weight: Number(weight)
       });
-      alert('Registration successful!');
+     
       navigate('/login');
     } catch (err) {
       alert('Registration failed!');
@@ -28,6 +28,10 @@ function Register() {
   return (
     <div className="container d-flex justify-content-center align-items-center vh-100">
       <div className="card p-4 shadow" style={{ width: '100%', maxWidth: '400px' }}>
+         <div className="text-center mb-4">
+    <h4 className="fw-bold text-success">"Push yourself, because no one else is going to do it for you."</h4>
+    <p className="text-muted">Start your fitness journey today 💪</p>
+  </div>
         <h3 className="text-center mb-3">Register</h3>
         <form onSubmit={handleRegister}>
           <div className="mb-3">

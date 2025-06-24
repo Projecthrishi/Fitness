@@ -153,13 +153,17 @@ function Dashboard() {
     { to: "/progress", label: "📷 Progress Gallery" }
   ].map((btn, i) => (
     <Link
-      key={i}
-      to={btn.to}
-      className="btn text-white px-4 py-2 rounded-pill shadow-sm"
-      style={{ backgroundColor: '#20c997' }}
-    >
-      {btn.label}
-    </Link>
+  to={btn.to}
+  key={i}
+  className="btn btn-gradient text-white px-4 py-2 rounded-pill shadow-sm"
+  style={{
+    background: 'linear-gradient(135deg, #ff416c, #ff4b2b)',
+    border: 'none'
+  }}
+>
+  {btn.label}
+</Link>
+
   ))}
 </div>
 

@@ -16,7 +16,7 @@ const handleLogin = async (e) => {
       email,
       password
     });
-    alert('Login successful!');
+    
     localStorage.setItem('token', res.data.token);
     navigate('/dashboard'); // ✅ correct redirection
   } catch (err) {
